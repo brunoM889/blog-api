@@ -7,7 +7,21 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+const frontDomain = process.env.FRONT_DOMAIN
+  ? process.env.FRONT_DOMAIN
+  : "http://localhost:5173";
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (origin === frontDomain) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
 
 app.use(express.json());
 
