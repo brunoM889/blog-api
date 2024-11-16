@@ -32,9 +32,6 @@ const sql = postgres({
   password: process.env.PGPASSWORD,
   port: 5432,
   ssl: "require",
-  connection: {
-    options: `project=${process.env.ENDPOINT_ID}`,
-  },
 });
 
 app.get("/", (req, res) => {
@@ -44,7 +41,7 @@ app.get("/", (req, res) => {
 app.get("/views", async (req, res) => {
   try {
     const posts = await sql`SELECT * FROM posts`;
-
+    console.log(posts);
     res.send({
       dbPosts: posts,
     });
